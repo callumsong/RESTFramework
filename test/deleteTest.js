@@ -18,7 +18,7 @@ describe('A delete request', function() {
       });
     });
   });
-  it('should have deleted a file', function(done) {
+  it('should have deleted a file', function (done) {
     chai.request('localhost:3000')
       .delete('/try-this/zoodle' + zoodleNumber)
       .end(function (err, res) {
