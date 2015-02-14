@@ -46,9 +46,18 @@ describe('A patch request with the specified file', function() {
       .end(function (err, res) {
         expect(err).eql(null);
         expect(res.text).eql('all patched up');
-        expect(JSON.stringify(fs.readJsonSync('./data/zoodle' + zoodleNumber + '.json'))).eql(testData);
         done();
       });
+  });
+  it('should have altered the values of the matching keys', function (done) {
+    chai.request('localhost:3000')
+      .patch('/try-this/zoodle' + zoodleNumber)
+      .send(testData)
+      .end(function (err, res) {
+        expect(err).eql(null);
+        expect(JSON.stringify(fs.readJsonSync('./data/zoodle' + zoodleNumber + '.json'))).eql(testData);
+        done();
+      });    
   });
   after(function() {
   fs.unlinkSync('data/zoodle' + zoodleNumber + '.json');

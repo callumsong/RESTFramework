@@ -1,7 +1,10 @@
 'use strict';
-var chai = require('chai');
-var chaihttp = require('chai-http');
-var fs = require('fs-extra');
+var chai = require('chai'),
+    chaihttp = require('chai-http'),
+    fs = require('fs-extra'),
+    newData = '{"test":"data"}',
+    zoodleNumber = 0;
+
 require('../lib/post');
 require('../index');
 
@@ -11,14 +14,12 @@ var expect = chai.expect;
 
 
 describe('A post request', function() {
-  var newData = '{"test": "data"}',
-      zoodleNumber = 0;
   before(function() {
     fs.readdir('data', function (err, data) {
       zoodleNumber = data.length + 1;
     });
   });
-  it ('tells the screen the file has been created', function(done) {
+  it('tells the screen the file has been created', function (done) {
     chai.request('localhost:3000')
       .post('/try-this')
       .send(newData)
@@ -29,10 +30,6 @@ describe('A post request', function() {
       });
   });
   after(function() {
-    fs.readdir('data', function (err, data){
-      fs.unlink('data/' + data[data.length -1].toString(), function (err, data) {
-        console.log('test removed');
-      });
-    });
+    fs.unlinkSync('data/zoodle' + zoodleNumber + '.json');
   });
 });
