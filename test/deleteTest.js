@@ -5,15 +5,25 @@ var chai = require('chai'),
     expect = chai.expect;
 
 require('../lib/delete');
+require('../index');
 chai.use(chaihttp);
 
 describe('A delete request', function() {
-  it('should have deleted all files', function(done) {
+  var zoodleNumber = 0;
+  before(function() {
+    fs.readdir('data', function (err, data){
+      zoodleNumber = data.length + 1;
+      fs.writeFile('data/zoodle'+ zoodleNumber + '.json', function (err, data) {
+        console.log('test file created.');
+      });
+    });
+  });
+  it('should have deleted a file', function(done) {
     chai.request('localhost:3000')
-      .delete('/request')
+      .delete('/try-this/zoodle' + zoodleNumber)
       .end(function (err, res) {
         expect(err).eql(null);
-        expect(fs.readdirSync('data').length).eql(0);
+        expect(fs.readdirSync('data').length).eql(zoodleNumber - 1);
         done();
       });
   });
