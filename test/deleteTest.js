@@ -14,7 +14,7 @@ describe('A delete request', function() {
     fs.readdir('data', function (err, data){
       zoodleNumber = data.length + 1;
       fs.writeFile('data/zoodle'+ zoodleNumber + '.json', function (err, data) {
-        console.log('test file created.');
+        console.log('The test file\'s 15 seconds of fame');
       });
     });
   });
